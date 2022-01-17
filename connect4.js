@@ -13,8 +13,10 @@ class Game {
     this.height = 7;
     this.currPlayer = p1;
     this.nextPlayer = [p1, p2];
+    this.handleClick = this.handleClick.bind(this);
     this.makeBoard(this.width, this.height);
     this.makeHtmlBoard();
+
     this.isGameOver = false;
   }
 
@@ -34,14 +36,14 @@ class Game {
 
   makeHtmlBoard() {
     const htmlBoard = document.getElementById('board');
-
+    //wipes board to reset game (if needed)
     htmlBoard.innerHTML = '';
 
     // make column tops (clickable area for adding a piece to that column)
     const top = document.createElement('tr');
     top.setAttribute('id', 'column-top');
 
-    top.addEventListener('click', this.handleClick.bind(this));
+    top.addEventListener('click', this.handleClick);
 
     for (let x = 0; x < this.width; x++) {
       const headCell = document.createElement('td');
@@ -98,9 +100,9 @@ class Game {
    */
 
   handleClick(evt) {
-    if (this.isGameOver) {
-      return;
-    }
+    // if (this.isGameOver) {
+    //   return;
+    // }
     // get x from ID of clicked cell
     const x = +evt.target.id;
 
@@ -167,7 +169,8 @@ class Game {
   }
 
   endGame(msg) {
-    document.getElementById("column-top").removeEventListener("click", this.handleClick.bind(this));
+    document.getElementById("column-top").removeEventListener("click", this.handleClick);
+    document.getElementById("title").innerText = "Game over!";
   }
 }
 
